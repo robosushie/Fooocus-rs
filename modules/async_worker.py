@@ -1,4 +1,5 @@
 import threading
+import secrets
 
 
 class AsyncTask:
@@ -20,7 +21,6 @@ def worker():
     import torch
     import time
     import shared
-    import random
     import copy
     import modules.default_pipeline as pipeline
     import modules.core as core
@@ -378,7 +378,7 @@ def worker():
             tasks = []
             for i in range(image_number):
                 task_seed = (seed + i) % (constants.MAX_SEED + 1)  # randint is inclusive, % is not
-                task_rng = random.Random(task_seed)  # may bind to inpaint noise in the future
+                task_rng = secrets.SystemRandom().Random(task_seed)  # may bind to inpaint noise in the future
 
                 task_prompt = apply_wildcards(prompt, task_rng)
                 task_negative_prompt = apply_wildcards(negative_prompt, task_rng)
