@@ -649,7 +649,7 @@ class CodeFormer(VQAutoEncoder):
             512, 64, [1, 2, 2, 4, 4, 8], "nearest", 2, [16], codebook_size
         )
 
-        if fix_modules is not None:
+        if fix_modules != None:
             for module in fix_modules:
                 for param in getattr(self, module).parameters():
                     param.requires_grad = False
