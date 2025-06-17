@@ -1,5 +1,4 @@
 import gradio as gr
-import random
 import os
 import json
 import time
@@ -21,6 +20,7 @@ from modules.sdxl_styles import legal_style_names
 from modules.private_logger import get_current_html_path
 from modules.ui_gradio_extensions import reload_javascript
 from modules.auth import auth_enabled, check_auth
+import secrets
 
 
 def generate_clicked(*args):
@@ -242,7 +242,7 @@ with shared.gradio_root:
 
                 def refresh_seed(r, seed_string):
                     if r:
-                        return random.randint(constants.MIN_SEED, constants.MAX_SEED)
+                        return secrets.SystemRandom().randint(constants.MIN_SEED, constants.MAX_SEED)
                     else:
                         try:
                             seed_value = int(seed_string)
@@ -250,7 +250,7 @@ with shared.gradio_root:
                                 return seed_value
                         except ValueError:
                             pass
-                        return random.randint(constants.MIN_SEED, constants.MAX_SEED)
+                        return secrets.SystemRandom().randint(constants.MIN_SEED, constants.MAX_SEED)
 
                 seed_random.change(random_checked, inputs=[seed_random], outputs=[image_seed],
                                    queue=False, show_progress=False)
