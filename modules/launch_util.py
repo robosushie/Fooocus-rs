@@ -8,6 +8,7 @@ import logging
 import importlib.metadata
 import packaging.version
 from packaging.requirements import Requirement
+from security import safe_command
 
 
 
@@ -49,7 +50,7 @@ def run(command, desc=None, errdesc=None, custom_env=None, live: bool = default_
     if not live:
         run_kwargs["stdout"] = run_kwargs["stderr"] = subprocess.PIPE
 
-    result = subprocess.run(**run_kwargs)
+    result = safe_command.run(subprocess.run, **run_kwargs)
 
     if result.returncode != 0:
         error_bits = [
